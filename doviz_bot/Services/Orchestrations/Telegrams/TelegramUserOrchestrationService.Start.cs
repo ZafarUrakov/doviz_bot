@@ -12,7 +12,7 @@ namespace doviz_bot.Services.Orchestrations.Telegrams
             {
                 await telegramService.SendMessageAsync(
                 userTelegramId: telegramUserMessage.TelegramUser.TelegramId,
-                message: "Doviz 💸\n\nAssalamu Alaykum, my friend, to the Doviz, I think you need to use me to find out the exchange rate. \nPress the \"📱 Phone number\" button to register.",
+                message: "Doviz 💸\n\nAssalamu Alaykum, my friend, I think you need to use me to find out the exchange rate. \nPress the \"📱 Phone number\" button to register.",
                 replyMarkup: new ReplyKeyboardMarkup(new KeyboardButton[] { KeyboardButton.WithRequestContact("📱 Phone number") })
                 {
                     ResizeKeyboard = true,
