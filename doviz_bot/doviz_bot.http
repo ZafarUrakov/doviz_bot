@@ -1,0 +1,6 @@
+@doviz_bot_HostAddress = http://localhost:5246
+
+GET {{doviz_bot_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
