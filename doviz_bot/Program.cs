@@ -7,7 +7,6 @@ using doviz_bot.Services.Orchestrations.Telegrams;
 using doviz_bot.Services.Processings.Telegrams;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,11 +24,8 @@ AddOrchestrationServices(builder);
 var app = builder.Build();
 RegisterEventListeners(app);
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 static void AddBrokers(WebApplicationBuilder builder)
 {
