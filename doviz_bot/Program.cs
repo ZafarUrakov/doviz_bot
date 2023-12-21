@@ -25,8 +25,11 @@ AddOrchestrationServices(builder);
 var app = builder.Build();
 RegisterEventListeners(app);
 
-app.UseSwagger();
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 static void AddBrokers(WebApplicationBuilder builder)
 {
