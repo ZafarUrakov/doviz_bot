@@ -144,7 +144,7 @@ namespace doviz_bot.Services.Orchestrations.Telegrams
 
                                     decimal exchangeRate = (decimal)jsonData["conversion_rates"][secondCurrencyCode];
 
-                                    int result = (int)(converter.Amount * exchangeRate);
+                                    float result = (float)(converter.Amount * exchangeRate);
 
                                     var markup = MainMarkupEng();
 
