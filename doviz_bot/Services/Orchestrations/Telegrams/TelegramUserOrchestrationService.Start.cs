@@ -36,16 +36,20 @@ namespace doviz_bot.Services.Orchestrations.Telegrams
             }
             else
             {
-                var telegramUser = this.telegramUserService.RetriveAllTelegramUsers()
-                   .FirstOrDefault(u => u.TelegramId == telegramUserMessage.Message.Chat.Id);
-
-                if (string.IsNullOrWhiteSpace(telegramUser.PhoneNumber))
+                if (telegramUserMessage.Message.Contact is null)
                 {
-                    await telegramService.SendMessageAsync(
-                    userTelegramId: telegramUserMessage.TelegramUser.TelegramId,
-                    message: $"Doviz 💸\n\nPlease press the \"/start\"");
 
-                    return true;
+                    var telegramUser = this.telegramUserService.RetriveAllTelegramUsers()
+                       .FirstOrDefault(u => u.TelegramId == telegramUserMessage.Message.Chat.Id);
+
+                    if (string.IsNullOrWhiteSpace(telegramUser.PhoneNumber))
+                    {
+                        await telegramService.SendMessageAsync(
+                        userTelegramId: telegramUserMessage.TelegramUser.TelegramId,
+                        message: $"Doviz 💸\n\nPlease press the \"/start\"");
+
+                        return true;
+                    }
                 }
             }
 

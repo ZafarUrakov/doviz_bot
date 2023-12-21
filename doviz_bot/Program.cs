@@ -28,7 +28,6 @@ RegisterEventListeners(app);
 app.UseSwagger();
 app.UseSwaggerUI();
 
-
 static void AddBrokers(WebApplicationBuilder builder)
 {
     builder.Services.AddTransient<IStorageBroker, StorageBroker>();
