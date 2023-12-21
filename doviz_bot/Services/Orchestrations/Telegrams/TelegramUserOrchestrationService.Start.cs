@@ -17,19 +17,33 @@ namespace doviz_bot.Services.Orchestrations.Telegrams
                 if (string.IsNullOrWhiteSpace(telegramUser.PhoneNumber))
                 {
                     await telegramService.SendMessageAsync(
-                   userTelegramId: telegramUserMessage.TelegramUser.TelegramId,
-                   message: "Doviz 💸\n\nAssalamu Alaykum, my friend, I think you need to use me to find out the exchange rate. \nPress the \"📱 Phone number\" button to register.",
-                   replyMarkup: new ReplyKeyboardMarkup(new KeyboardButton[] { KeyboardButton.WithRequestContact("📱 Phone number") })
-                   {
-                       ResizeKeyboard = true,
-                       OneTimeKeyboard = true
-                   });
+                    userTelegramId: telegramUserMessage.TelegramUser.TelegramId,
+                    message: "Doviz 💸\n\nAssalamu Alaykum, my friend, I think you need to use me to find out the exchange rate. \nPress the \"📱 Phone number\" button to register.",
+                    replyMarkup: new ReplyKeyboardMarkup(new KeyboardButton[] { KeyboardButton.WithRequestContact("📱 Phone number") })
+                    {
+                        ResizeKeyboard = true,
+                        OneTimeKeyboard = true
+                    });
 
                     return true;
                 }
                 else
                 {
                     await BackToMenu(telegramUserMessage);
+
+                    return true;
+                }
+            }
+            else
+            {
+                var telegramUser = this.telegramUserService.RetriveAllTelegramUsers()
+                   .FirstOrDefault(u => u.TelegramId == telegramUserMessage.Message.Chat.Id);
+
+                if (string.IsNullOrWhiteSpace(telegramUser.PhoneNumber))
+                {
+                    await telegramService.SendMessageAsync(
+                    userTelegramId: telegramUserMessage.TelegramUser.TelegramId,
+                    message: $"Doviz 💸\n\nPlease press the \"/start\"");
 
                     return true;
                 }
