@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using doviz_bot.Models.Converters;
 using doviz_bot.Models.TelegramUserMessages;
@@ -75,22 +76,25 @@ namespace doviz_bot.Services.Orchestrations.Telegrams
 
                 if (converter != null)
                 {
-                    if (decimal.TryParse(telegramUserMessage.Message.Text, out decimal amount))
+                    string amountString = Regex.Replace(telegramUserMessage.Message.Text, "[^0-9]", "");
+
+                    if (int.TryParse(amountString, out int convertedAmount))
                     {
-                        converter.Amount = amount;
+                        converter.Amount = convertedAmount;
                         await this.converterService.ModifyConverterAsync(converter);
 
                         telegramUserMessage.TelegramUser.Status = TelegramUserStatus.Amount;
                         await this.telegramUserProcessingService
-                               .ModifyTelegramUserAsync(telegramUserMessage.TelegramUser);
+                            .ModifyTelegramUserAsync(telegramUserMessage.TelegramUser);
 
                         var markup = CurrenciesMarkupEng();
 
                         await this.telegramService.SendMessageAsync(
-                               userTelegramId: telegramUserMessage.TelegramUser.TelegramId,
-                               message: $"Doviz 💵\n\n Select the currency into which you want to convert {converter.FirstCurrency}",
-                               replyMarkup: markup);
+                            userTelegramId: telegramUserMessage.TelegramUser.TelegramId,
+                            message: $"Doviz 💵\n\n Select the currency into which you want to convert {converter.FirstCurrency}",
+                            replyMarkup: markup);
                     }
+
 
                     return false;
                 }
@@ -140,7 +144,7 @@ namespace doviz_bot.Services.Orchestrations.Telegrams
 
                                     decimal exchangeRate = (decimal)jsonData["conversion_rates"][secondCurrencyCode];
 
-                                    decimal result = converter.Amount * exchangeRate;
+                                    int result = (int)(converter.Amount * exchangeRate);
 
                                     var markup = MainMarkupEng();
 

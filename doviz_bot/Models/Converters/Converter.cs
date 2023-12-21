@@ -9,7 +9,7 @@ namespace doviz_bot.Models.Converters
         public string FirstCurrency { get; set; }
         public decimal Amount { get; set; }
         public string SecondCurrency { get; set; }
-        public decimal Result { get; set; }
+        public int Result { get; set; }
 
         public Guid TelegramUserId { get; set; }
         public TelegramUser TelegramUser { get; set; }

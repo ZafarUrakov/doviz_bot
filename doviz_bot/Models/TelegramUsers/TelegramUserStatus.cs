@@ -6,6 +6,7 @@
         Convert,
         First,
         Amount,
-        Last
+        Last,
+        Feedback
     }
 }

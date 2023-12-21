@@ -30,6 +30,8 @@ namespace doviz_bot.Services.Orchestrations.Telegrams
         private const string startCommand = "/start";
         private const string convertCommand = "💰 Convert";
         private const string menuCommand = "⬅️Menu";
+        private const string connectWithUseCommand = "ℹ️ Connect with us";
+        private const string feedbackCommand = "✍️ Leave feedback";
 
         public async ValueTask<TelegramUserMessage> ProcessTelegramUserAsync(TelegramUserMessage telegramUserMessage)
         {
@@ -37,10 +39,16 @@ namespace doviz_bot.Services.Orchestrations.Telegrams
                 await telegramUserProcessingService
                     .UpsertTelegramUserProcessingService(telegramUserMessage.TelegramUser);
 
+            if (await StartAsync(telegramUserMessage))
+                return telegramUserMessage;
+
             if (await BackToMenu(telegramUserMessage))
                 return telegramUserMessage;
 
-            if (await StartAsync(telegramUserMessage))
+            if (await ConnectWithUsAsync(telegramUserMessage))
+                return telegramUserMessage;
+
+            if (await FeedbackAsync(telegramUserMessage))
                 return telegramUserMessage;
 
             if (await RegisterAsync(telegramUserMessage))

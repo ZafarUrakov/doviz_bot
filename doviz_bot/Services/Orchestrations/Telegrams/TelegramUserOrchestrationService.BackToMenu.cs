@@ -9,7 +9,8 @@ namespace doviz_bot.Services.Orchestrations.Telegrams
     {
         public async ValueTask<bool> BackToMenu(TelegramUserMessage telegramUserMessage)
         {
-            if (telegramUserMessage.Message.Text == menuCommand)
+            if (telegramUserMessage.Message.Text == menuCommand 
+                || telegramUserMessage.Message.Text == startCommand)
             {
                 var markup = MainMarkupEng();
                 string message = "Doviz 👀\n\nMenu my dear friend 👇🏼";
@@ -32,6 +33,7 @@ namespace doviz_bot.Services.Orchestrations.Telegrams
                 telegramUserMessage.TelegramUser.HelperId = default;
                 await this.telegramUserProcessingService
                     .ModifyTelegramUserAsync(telegramUserMessage.TelegramUser);
+
                 return true;
             }
 
