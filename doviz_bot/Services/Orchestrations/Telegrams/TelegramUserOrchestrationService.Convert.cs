@@ -78,9 +78,9 @@ namespace doviz_bot.Services.Orchestrations.Telegrams
                 {
                     string amountString = Regex.Replace(telegramUserMessage.Message.Text, "[^0-9]", "");
 
-                    if (int.TryParse(amountString, out int convertedAmount))
+                    if (float.TryParse(amountString, out float convertedAmount))
                     {
-                        converter.Amount = convertedAmount;
+                        converter.Amount = (decimal)convertedAmount;
                         await this.converterService.ModifyConverterAsync(converter);
 
                         telegramUserMessage.TelegramUser.Status = TelegramUserStatus.Amount;
